@@ -1,0 +1,103 @@
+CCS PCH C Compiler, Version 4.140, 21898               14-ago-13 10:17
+
+               Filename:   D:\Eletronica\Projetos\Multiplex\main.lst
+
+               ROM used:   116 bytes (0%)
+                           Largest free fragment is 65420
+               RAM used:   7 (0%) at main() level
+                           7 (0%) worst case
+               Stack:     1 locations
+
+*
+00000:  GOTO   002E
+.................... /* 
+....................  * main.c 
+....................  * 
+....................  *  Created on: 14/08/2013 
+....................  *      Author: cuki 
+....................  */ 
+.................... #include<18F46K20.h> 
+.................... //////// Standard Header file for the PIC18F46K20 device //////////////// 
+.................... #device PIC18F46K20 
+.................... #list 
+....................  
+....................  
+.................... #FUSES HS 
+.................... #USE delay(clock=4MHz) 
+00004:  CLRF   FEA
+00006:  MOVLW  06
+00008:  MOVWF  FE9
+0000A:  MOVF   FEF,W
+0000C:  BZ    002A
+0000E:  MOVLW  01
+00010:  MOVWF  01
+00012:  CLRF   00
+00014:  DECFSZ 00,F
+00016:  BRA    0014
+00018:  DECFSZ 01,F
+0001A:  BRA    0012
+0001C:  MOVLW  4A
+0001E:  MOVWF  00
+00020:  DECFSZ 00,F
+00022:  BRA    0020
+00024:  BRA    0026
+00026:  DECFSZ FEF,F
+00028:  BRA    000E
+0002A:  GOTO   0068 (RETURN)
+....................  
+.................... int cont, data; 
+....................  
+.................... int main(void) { 
+0002E:  CLRF   FF8
+00030:  BCF    FD0.7
+00032:  CLRF   FEA
+00034:  CLRF   FE9
+00036:  MOVLW  00
+00038:  MOVWF  F7E
+0003A:  BCF    FC1.4
+0003C:  BCF    FC1.5
+0003E:  MOVF   F7F,W
+00040:  ANDLW  E0
+00042:  MOVWF  F7F
+00044:  BCF    F79.5
+00046:  BCF    F79.4
+00048:  CLRF   F7A
+0004A:  CLRF   F7B
+.................... 	while (TRUE) { 
+.................... 		output_c(data++); 
+0004C:  MOVF   05,W
+0004E:  INCF   05,F
+00050:  CLRF   F94
+00052:  MOVWF  F8B
+.................... 		for (cont = 0; cont < 8; cont++) { 
+00054:  CLRF   04
+00056:  MOVF   04,W
+00058:  SUBLW  07
+0005A:  BNC   006C
+.................... 			output_d(cont); 
+0005C:  CLRF   F95
+0005E:  MOVFF  04,F8C
+.................... 			delay_ms(100); 
+00062:  MOVLW  64
+00064:  MOVWF  06
+00066:  BRA    0004
+.................... 		} 
+00068:  INCF   04,F
+0006A:  BRA    0056
+.................... 	} 
+0006C:  BRA    004C
+.................... 	return 0; 
+0006E:  MOVLW  00
+00070:  MOVWF  01
+.................... } 
+....................  
+00072:  SLEEP 
+
+Configuration Fuses:
+   Word  1: C200   HS FCMEN IESO
+   Word  2: 1E1E   PUT BROWNOUT BORV18 NOWDT WDT32768
+   Word  3: 8F00   CCP2C1 PBADEN LPT1OSC HFOFST MCLR
+   Word  4: 0081   STVREN NOLVP NOXINST NODEBUG
+   Word  5: C00F   NOPROTECT NOCPB NOCPD
+   Word  6: E00F   NOWRT NOWRTC NOWRTB NOWRTD
+   Word  7: 400F   NOEBTR NOEBTRB
